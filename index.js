@@ -2666,6 +2666,14 @@ Jimp.prototype.print = function (font, x, y, text, maxWidth, maxHeight, cb) {
     var line = '';
 
     for (let n = 0; n < words.length; n++) {
+        // If the 'word' is a newline character, go to the next line
+        if (words[n] === '\n') {
+            that = that.print(font, x + xOffsetBasedOnAlignment(font, line, maxWidth, alignmentX), y, line);
+            line = '';
+            y += font.common.lineHeight;
+            continue;
+        }
+
         var testLine = line + words[n] + ' ';
         var testWidth = measureText(font, testLine);
         if (testWidth > maxWidth && n > 0) {
